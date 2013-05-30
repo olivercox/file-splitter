@@ -41,8 +41,7 @@ else {
             if(args[arg].indexOf('-') == 0) switches.push(args[arg]);
             else options.push(args[arg]);
         }
-        console.log(switches.join(', '));
-        console.log(options.join(', '));
+        //Check for the presence and validity of required aruguments
         if(!isNaN(parseFloat(options[0])) && isFinite(options[0])) filesize = options[0];
         filepath = options[1];
         targetfolder = options.length == 3 ? options[2] : "";
@@ -62,10 +61,7 @@ else {
             console.log(util.format("Invalid [file] argument: %s does not exist", filepath));
             return;
         }
-        if (targetfolder === "")
-        {
-            targetfolder = path.dirname(filepath);
-        }
+        if (targetfolder === "") targetfolder = path.dirname(filepath);
         if(switches.indexOf("-l") !== -1) {
             console.log(util.format("Splitting %s into %d line files in %s", path.basename(filepath), filesize, targetfolder));
             splitFileByLines(function(err, filesCreated) {
@@ -82,12 +78,7 @@ else {
         
     }
 }
-//Remove any switches from the args and store in switches
-
-//Check for the presence and validity of required aruguments
-
-//Run the splitter
-//Create readable stream
+//Run the splitter by lines
 function splitFileByLines(callback) {
     fs.createReadStream(filepath, { encoding: 'utf-8' })
       .on('data', function (data) {
